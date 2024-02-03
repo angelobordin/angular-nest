@@ -1,0 +1,58 @@
+<div class="container">
+    <form [formGroup]="form">
+        <div class="row py-4">
+            <div class="col-12 col-sm-4">
+                <div class="col-12">
+                    <mat-label label for="cpf" class="label">CPF</mat-label>
+                    <input name="cpf" id="cpf" placeholder="CPF" type="text" maxlength="14" class="form-control"
+                        formControlName="cpf" mask="000.000.000-00" />
+                </div>
+            </div>
+            <div class="col-12 col-sm-8">
+                <div class="col-12">
+                    <mat-label label for="name" class="label">Nome</mat-label>
+                    <input matInput name="name" id="name" placeholder="Nome" type="text" class="form-control"
+                        maxlength="60" formControlName="name" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-sm-4">
+                <div class="col-12">
+                    <mat-label for="birthday">Data de Nascimento</mat-label>
+                    <input matInput name="name" type="date" id="birthday" class="form-control"
+                        formControlName="birthday" min="1911-01-01" [max]="today" placeholder="Data de Nascimento" />
+                </div>
+            </div>
+            <div class="col-12 col-sm-4">
+                <div class="col-12">
+                    <mat-label label for="marital_status" class="label flex items-center">
+                        Estado Civil
+                    </mat-label>
+                    <mat-select formControlName="marital_status">
+                        <mat-option value="1">1 - Solteiro</mat-option>
+                        <mat-option value="2">2 - Casado</mat-option>
+                        <mat-option value="3">3 - Separado/Divorciado</mat-option>
+                        <mat-option value="4">4 - União Estável</mat-option>
+                    </mat-select>
+                </div>
+            </div>
+            <div class="col-12 col-sm-4">
+                <mat-form-field class="col-12">
+                    <mat-label label for="level_education" class="label flex items-center">
+                        Escolaridade
+                    </mat-label>
+                    <mat-select formControlName="level_education">
+                        <mat-option value="1">1 - Analfabeto</mat-option>
+                        <mat-option value="2">2 - 1° Grau Inc.</mat-option>
+                        <mat-option value="3">3 - 1° Grau Completo</mat-option>
+                        <mat-option value="4">4 - 2° Grau Completo</mat-option>
+                        <mat-option value="5">5 - Nível Superior</mat-option>
+                        <mat-option value="6">6 - Sem Informação</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+</div>
