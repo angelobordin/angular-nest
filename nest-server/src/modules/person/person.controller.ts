@@ -23,7 +23,6 @@ export class PersonController {
 
   @Get()
   getPersonList() {
-    console.log('teste');
     return this.personService.getPersonList();
   }
 
