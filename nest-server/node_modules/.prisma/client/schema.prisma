@@ -11,24 +11,24 @@ datasource db {
 }
 
 model person {
-  id            Int           @id @unique @default(autoincrement())
-  cpf           String        @unique @db.VarChar(11)
-  name          String        @db.VarChar(60)
-  birthday      DateTime      @db.Date
-  marital_state marital_state
-  education     education
-  created_at    DateTime      @default(now())
-  updated_at    DateTime      @updatedAt
+  id              Int             @id @unique @default(autoincrement())
+  cpf             String          @unique @db.VarChar(11)
+  name            String          @db.VarChar(60)
+  birthday        DateTime        @db.Date
+  marital_status  marital_status
+  level_education level_education
+  created_at      DateTime        @default(now())
+  updated_at      DateTime        @updatedAt
 }
 
-enum marital_state {
+enum marital_status {
   SOLTEIRO
   CASADO
   SEPARADO
   UNIAO_ESTAVEL
 }
 
-enum education {
+enum level_education {
   ANALFABETO
   PRIMEIRO_INC
   PRIMERIO_COMP

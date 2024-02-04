@@ -11,6 +11,7 @@ Object.defineProperty(exports, "PersonService", {
 const _common = require("@nestjs/common");
 const _personrepository = require("./person.repository");
 const _response = require("../../utils/functions/response");
+const _personregister = require("../../utils/error/person-register");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -22,7 +23,12 @@ function _ts_metadata(k, v) {
 }
 let PersonService = class PersonService {
     async registerPerson(createPersonDto) {
-        const result = await this.repository.registerPerson(createPersonDto);
+        const personAlreadyExists = await this.repository.getPersonByCpf(createPersonDto.cpf);
+        if (personAlreadyExists) throw new _personregister.ErrorPersonAlreadyExists(`Cpf já cadastrado`);
+        const result = await this.repository.registerPerson({
+            ...createPersonDto,
+            name: createPersonDto['name'].toUpperCase()
+        });
         return (0, _response.successReponse)(result, 'Registro cadastrado com sucesso');
     }
     async getPersonList() {
@@ -34,7 +40,10 @@ let PersonService = class PersonService {
         return (0, _response.successReponse)(result);
     }
     async updatePersonById(id, updatePersonDto) {
-        const result = await this.repository.updatePersonById(id, updatePersonDto);
+        const result = await this.repository.updatePersonById(id, {
+            ...updatePersonDto,
+            name: updatePersonDto['name'].toUpperCase()
+        });
         return (0, _response.successReponse)(result, 'Registro atualizado com sucesso!');
     }
     async deletePersonById(id) {

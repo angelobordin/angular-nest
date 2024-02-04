@@ -10,6 +10,7 @@ Object.defineProperty(exports, "PersonRepository", {
 });
 const _common = require("@nestjs/common");
 const _nestjsprisma = require("nestjs-prisma");
+const _client = require("@prisma/client");
 function _ts_decorate(decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -22,11 +23,24 @@ function _ts_metadata(k, v) {
 let PersonRepository = class PersonRepository {
     async registerPerson(createPersonDto) {
         return await this.prismaService.person.create({
-            data: createPersonDto
+            data: {
+                cpf: createPersonDto.cpf,
+                name: createPersonDto.name,
+                birthday: new Date(createPersonDto.birthday),
+                marital_status: _client.marital_status[createPersonDto.marital_status],
+                level_education: _client.level_education[createPersonDto.level_education]
+            }
         });
     }
     async getPersonList() {
         return await this.prismaService.person.findMany();
+    }
+    async getPersonByCpf(cpf) {
+        return await this.prismaService.person.findUnique({
+            where: {
+                cpf
+            }
+        });
     }
     async getPersonById(id) {
         return await this.prismaService.person.findUnique({
@@ -40,7 +54,13 @@ let PersonRepository = class PersonRepository {
             where: {
                 id
             },
-            data: updatePersonDto
+            data: {
+                cpf: updatePersonDto.cpf,
+                name: updatePersonDto.name,
+                birthday: new Date(updatePersonDto.birthday),
+                marital_status: _client.marital_status[updatePersonDto.marital_status],
+                level_education: _client.level_education[updatePersonDto.level_education]
+            }
         });
     }
     async deletePersonById(id) {
