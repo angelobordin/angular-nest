@@ -1,58 +1,86 @@
-<div class="container">
-    <form [formGroup]="form">
-        <div class="row py-4">
-            <div class="col-12 col-sm-4">
-                <div class="col-12">
-                    <mat-label label for="cpf" class="label">CPF</mat-label>
-                    <input name="cpf" id="cpf" placeholder="CPF" type="text" maxlength="14" class="form-control"
-                        formControlName="cpf" mask="000.000.000-00" />
-                </div>
-            </div>
-            <div class="col-12 col-sm-8">
-                <div class="col-12">
-                    <mat-label label for="name" class="label">Nome</mat-label>
-                    <input matInput name="name" id="name" placeholder="Nome" type="text" class="form-control"
-                        maxlength="60" formControlName="name" />
-                </div>
+<form [formGroup]="form" class="container">
+    <div class="row mb-3">
+        <div class="col-12 col-sm-4">
+            <label for="cpf" class="label">CPF</label>
+            <input name="cpf" id="cpf" placeholder="CPF" type="text" maxlength="14" class="form-control"
+                formControlName="cpf" mask="000.000.000-00" />
+            <div *ngIf="form.get('cpf')?.errors?.['required'] && form.get('cpf')?.touched"
+                class="alert alert-danger mt-1" role="alert">
+                CPF é obrigatório!
             </div>
         </div>
+        <div class="col-12 col-sm-8">
+            <label for="name" class="label">Nome</label>
+            <input name="name" id="name" placeholder="Nome" type="text" class="form-control" maxlength="60"
+                formControlName="name" />
+            <div *ngIf="form.get('name')?.errors?.['required'] && form.get('name')?.touched"
+                class="alert alert-danger mt-1" role="alert">
+                Nome da Pessoa é obrigatório!
+            </div>
+        </div>
+    </div>
 
-        <div class="row">
-            <div class="col-12 col-sm-4">
-                <div class="col-12">
-                    <mat-label for="birthday">Data de Nascimento</mat-label>
-                    <input matInput name="name" type="date" id="birthday" class="form-control"
-                        formControlName="birthday" min="1911-01-01" [max]="today" placeholder="Data de Nascimento" />
-                </div>
+    <div class="row mb-3">
+        <div class="col-12 col-sm-4">
+            <label for="birthday">Data de Nascimento</label>
+            <input name="name" type="date" id="birthday" class="form-control" formControlName="birthday"
+                min="1911-01-01" [max]="today" placeholder="Data de Nascimento" />
+            <div *ngIf="form.get('birthday')?.errors?.['required'] && form.get('birthday')?.touched"
+                class="alert alert-danger mt-1" role="alert">
+                Data de Nascimento é obrigatório!
             </div>
-            <div class="col-12 col-sm-4">
-                <div class="col-12">
-                    <mat-label label for="marital_status" class="label flex items-center">
-                        Estado Civil
-                    </mat-label>
-                    <mat-select formControlName="marital_status">
-                        <mat-option value="1">1 - Solteiro</mat-option>
-                        <mat-option value="2">2 - Casado</mat-option>
-                        <mat-option value="3">3 - Separado/Divorciado</mat-option>
-                        <mat-option value="4">4 - União Estável</mat-option>
-                    </mat-select>
-                </div>
-            </div>
-            <div class="col-12 col-sm-4">
-                <mat-form-field class="col-12">
-                    <mat-label label for="level_education" class="label flex items-center">
-                        Escolaridade
-                    </mat-label>
-                    <mat-select formControlName="level_education">
-                        <mat-option value="1">1 - Analfabeto</mat-option>
-                        <mat-option value="2">2 - 1° Grau Inc.</mat-option>
-                        <mat-option value="3">3 - 1° Grau Completo</mat-option>
-                        <mat-option value="4">4 - 2° Grau Completo</mat-option>
-                        <mat-option value="5">5 - Nível Superior</mat-option>
-                        <mat-option value="6">6 - Sem Informação</mat-option>
-                    </mat-select>
-                </mat-form-field>
+            <div *ngIf="form.get('birthday')?.errors?.['invalido'] && form.get('birthday')?.touched"
+                class="alert alert-danger mt-1" role="alert">
+                Data Selecionada maior que a data de hoje.
             </div>
         </div>
-    </form>
-</div>
+        <div class="col-12 col-sm-4">
+            <label for="marital_status" class="label">
+                Estado Civil
+            </label>
+            <select class="form-select" formControlName="marital_status">
+                <option value="SOLTEIRO">1 - Solteiro</option>
+                <option value="CASADO">2 - Casado</option>
+                <option value="SEPARADO">3 - Separado/Divorciado</option>
+                <option value="UNIAO_ESTAVEL">4 - União Estável</option>
+            </select>
+            <div *ngIf="form.get('marital_status')?.errors?.['required'] && form.get('marital_status')?.touched"
+                class="alert alert-danger mt-1" role="alert">
+                Estado Civil é obrigatório!
+            </div>
+        </div>
+        <div class="col-12 col-sm-4">
+            <label for="level_education" class="label flex items-center">
+                Escolaridade
+            </label>
+            <select class="form-select" formControlName="level_education">
+                <option value="ANALFABETO">1 - Analfabeto</option>
+                <option value="PRIMEIRO_INC">2 - 1° Grau Incompleto</option>
+                <option value="PRIMEIRO_COMP">3 - 1° Grau Completo</option>
+                <option value="SEGUNDO_COMP">4 - 2° Grau Completo</option>
+                <option value="SUPERIOR">5 - Nível Superior</option>
+                <option value="SEM_INFORMACAO">6 - Sem Informação</option>
+            </select>
+            <div *ngIf="form.get('level_education')?.errors?.['required'] && form.get('level_education')?.touched"
+                class="alert alert-danger mt-1" role="alert">
+                Escolaridade é obrigatório!
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 modal-footer">
+            <button *ngIf="action == 'register'" [disabled]="form.invalid" type="button"
+                class="w-full button btn btn-primary" (click)="registerPerson()">
+                <span>Cadastrar</span>
+            </button>
+            <button *ngIf="form.value['id']" type="button" class="w-full button btn btn-danger"
+                (click)="deletePerson()">
+                <span>Deletar</span>
+            </button>
+            <button *ngIf="action == 'edit'" [disabled]="form.invalid || !form.dirty" type="button"
+                class="w-full button btn btn-primary" (click)="updatePerson()">
+                <span>Salvar</span>
+            </button>
+        </div>
+    </div>
+</form>

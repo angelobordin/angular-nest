@@ -3,13 +3,24 @@ import { CreatePersonDto } from './dto/create-person.dto';
 import { UpdatePersonDto } from './dto/update-person.dto';
 import { PersonRepository } from './person.repository';
 import { successReponse } from 'src/utils/functions/response';
+import { ErrorPersonAlreadyExists } from 'src/utils/error/person-register';
 
 @Injectable()
 export class PersonService {
   constructor(private readonly repository: PersonRepository) {}
 
   async registerPerson(createPersonDto: CreatePersonDto) {
-    const result = await this.repository.registerPerson(createPersonDto);
+    const personAlreadyExists = await this.repository.getPersonByCpf(
+      createPersonDto.cpf,
+    );
+
+    if (personAlreadyExists)
+      throw new ErrorPersonAlreadyExists(`Cpf já cadastrado`);
+
+    const result = await this.repository.registerPerson({
+      ...createPersonDto,
+      name: createPersonDto['name'].toUpperCase(),
+    });
     return successReponse(result, 'Registro cadastrado com sucesso');
   }
 
@@ -24,7 +35,11 @@ export class PersonService {
   }
 
   async updatePersonById(id: number, updatePersonDto: UpdatePersonDto) {
-    const result = await this.repository.updatePersonById(id, updatePersonDto);
+    const result = await this.repository.updatePersonById(id, {
+      ...updatePersonDto,
+      name: updatePersonDto['name'].toUpperCase(),
+    });
+
     return successReponse(result, 'Registro atualizado com sucesso!');
   }
 
